@@ -1,0 +1,28 @@
+# Environment variables with sensitive data
+.env
+
+# Build artifacts
+*.exe
+*.test
+
+# Log files
+butler.log
+
+# IDE files
+.vscode/
+.idea/
+
+# json files
+contacts.json
+tokens.json
+chains.json
+
+# env file
+.env
+
+# binary
+/butler
+# Agents files
+CLAUDE.md
+AGENTS.md
+implementation_plan.md
