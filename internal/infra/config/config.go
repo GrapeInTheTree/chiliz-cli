@@ -5,14 +5,60 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"path/filepath"
 
 	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
 	"github.com/joho/godotenv"
 )
 
+// configDir holds the resolved configuration directory
+var configDir string
+
+// SetConfigDir sets the config directory explicitly
+func SetConfigDir(dir string) {
+	configDir = dir
+}
+
+// ResolveConfigDir determines the config directory using a cascade:
+// 1. explicit flag (if non-empty)
+// 2. BUTLER_CONFIG_DIR env var
+// 3. ~/.butler/ (if chains.json exists there)
+// 4. current working directory
+func ResolveConfigDir(flagValue string) string {
+	if flagValue != "" {
+		configDir = flagValue
+		return configDir
+	}
+
+	if envDir := os.Getenv("BUTLER_CONFIG_DIR"); envDir != "" {
+		configDir = envDir
+		return configDir
+	}
+
+	if home, err := os.UserHomeDir(); err == nil {
+		butlerHome := filepath.Join(home, ".butler")
+		if _, err := os.Stat(filepath.Join(butlerHome, "chains.json")); err == nil {
+			configDir = butlerHome
+			return configDir
+		}
+	}
+
+	// Fallback: current working directory (preserves existing behavior)
+	configDir = ""
+	return configDir
+}
+
+// configPath returns the full path to a config file
+func configPath(filename string) string {
+	if configDir == "" {
+		return filename
+	}
+	return filepath.Join(configDir, filename)
+}
+
 // LoadChains loads blockchain configurations from chains.json
 func LoadChains() ([]domain.Chain, error) {
-	data, err := os.ReadFile("chains.json")
+	data, err := os.ReadFile(configPath("chains.json"))
 	if err != nil {
 		return nil, fmt.Errorf("failed to read chains.json: %w", err)
 	}
@@ -28,7 +74,7 @@ func LoadChains() ([]domain.Chain, error) {
 
 // LoadContacts loads address book from contacts.json
 func LoadContacts() ([]domain.Contact, error) {
-	data, err := os.ReadFile("contacts.json")
+	data, err := os.ReadFile(configPath("contacts.json"))
 	if err != nil {
 		return nil, fmt.Errorf("failed to read contacts.json: %w", err)
 	}
@@ -44,8 +90,13 @@ func LoadContacts() ([]domain.Contact, error) {
 
 // LoadWallets loads wallet configuration and attempts to load .env
 func LoadWallets() ([]domain.Wallet, error) {
-	// Try to load .env file (optional)
-	if err := godotenv.Load(); err != nil {
+	// Try to load .env file from config dir, then from cwd
+	envPath := configPath(".env")
+	if err := godotenv.Load(envPath); err != nil {
+		// Also try current directory if configDir is set
+		if configDir != "" {
+			_ = godotenv.Load(".env")
+		}
 		slog.Warn("No .env file found - please create one from .env.example")
 	}
 
@@ -61,7 +112,7 @@ func LoadWallets() ([]domain.Wallet, error) {
 
 // LoadTokens loads ERC-20 token configurations from tokens.json
 func LoadTokens() ([]domain.Token, error) {
-	data, err := os.ReadFile("tokens.json")
+	data, err := os.ReadFile(configPath("tokens.json"))
 	if err != nil {
 		return nil, fmt.Errorf("failed to read tokens.json: %w", err)
 	}

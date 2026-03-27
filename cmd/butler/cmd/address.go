@@ -1,0 +1,120 @@
+package cmd
+
+import (
+	"fmt"
+	"strings"
+	"sync"
+
+	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
+	"github.com/GrapeInTheTree/go-ethereum-butler/internal/infra/ethereum"
+	"github.com/GrapeInTheTree/go-ethereum-butler/internal/output"
+	"github.com/spf13/cobra"
+)
+
+var addressCmd = &cobra.Command{
+	Use:   "address <addr>",
+	Short: "Show comprehensive address information",
+	Long:  "Display balance, nonce, token holdings, and recent transactions for an address",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		addr := args[0]
+		if !strings.HasPrefix(addr, "0x") || len(addr) != 42 {
+			return fmt.Errorf("invalid address format: must be 0x + 40 hex chars")
+		}
+
+		chain := appCtx.Chain
+		rpc := chain.RPCURL
+
+		// Parallel RPC fetches
+		var (
+			balance    string
+			nonce      uint64
+			isContract bool
+			rpcErr     error
+			mu         sync.Mutex
+			wg         sync.WaitGroup
+		)
+
+		wg.Add(3)
+
+		go func() {
+			defer wg.Done()
+			bal, err := ethereum.GetBalance(rpc, addr)
+			mu.Lock()
+			defer mu.Unlock()
+			if err != nil {
+				rpcErr = fmt.Errorf("balance: %w", err)
+				return
+			}
+			balance = ethereum.FormatBalance(bal)
+		}()
+
+		go func() {
+			defer wg.Done()
+			n, err := ethereum.GetNonce(rpc, addr)
+			mu.Lock()
+			defer mu.Unlock()
+			if err != nil {
+				rpcErr = fmt.Errorf("nonce: %w", err)
+				return
+			}
+			nonce = n
+		}()
+
+		go func() {
+			defer wg.Done()
+			code, err := ethereum.GetCode(rpc, addr)
+			mu.Lock()
+			defer mu.Unlock()
+			if err != nil {
+				return // non-fatal
+			}
+			isContract = len(code) > 0
+		}()
+
+		wg.Wait()
+		if rpcErr != nil {
+			return rpcErr
+		}
+
+		info := domain.AddressInfo{
+			Address:       addr,
+			Chain:         chain.Name,
+			ChainID:       chain.ChainID,
+			NativeBalance: balance,
+			NativeSymbol:  chain.CurrencySymbol,
+			Nonce:         nonce,
+			IsContract:    isContract,
+		}
+
+		// Explorer data (graceful degradation)
+		if appCtx.Explorer != nil {
+			var explWg sync.WaitGroup
+			explWg.Add(2)
+
+			go func() {
+				defer explWg.Done()
+				txs, err := appCtx.Explorer.GetTxList(addr, 1, 10)
+				if err == nil {
+					mu.Lock()
+					info.RecentTxs = txs
+					mu.Unlock()
+				}
+			}()
+
+			go func() {
+				defer explWg.Done()
+				tokens, err := appCtx.Explorer.GetTokenBalances(addr)
+				if err == nil {
+					mu.Lock()
+					info.TokenBalances = tokens
+					mu.Unlock()
+				}
+			}()
+
+			explWg.Wait()
+		}
+
+		return output.Print(jsonOutput, info)
+	},
+}

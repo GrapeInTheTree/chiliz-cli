@@ -110,7 +110,7 @@ func SendTokenTransaction(
 // FormatTokenBalance converts token units to human-readable format based on decimals
 func FormatTokenBalance(balance *big.Int, decimals int) string {
 	fBalance := new(big.Float).SetInt(balance)
-	divisor := new(big.Float).SetFloat64(float64(pow10(decimals)))
+	divisor := new(big.Float).SetInt(pow10(decimals))
 	tokenValue := new(big.Float).Quo(fBalance, divisor)
 	return tokenValue.Text('f', 6)
 }
@@ -123,18 +123,14 @@ func ParseTokenAmount(amountStr string, decimals int) (*big.Int, error) {
 	}
 
 	// Multiply by 10^decimals
-	multiplier := new(big.Float).SetFloat64(float64(pow10(decimals)))
+	multiplier := new(big.Float).SetInt(pow10(decimals))
 	tokenUnits := new(big.Float).Mul(fAmount, multiplier)
 	result, _ := tokenUnits.Int(nil)
 
 	return result, nil
 }
 
-// pow10 calculates 10^n
-func pow10(n int) int64 {
-	result := int64(1)
-	for i := 0; i < n; i++ {
-		result *= 10
-	}
-	return result
+// pow10 calculates 10^n as *big.Int (safe for any decimal count)
+func pow10(n int) *big.Int {
+	return new(big.Int).Exp(big.NewInt(10), big.NewInt(int64(n)), nil)
 }

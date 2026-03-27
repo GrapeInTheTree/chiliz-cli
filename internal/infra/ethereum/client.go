@@ -140,6 +140,130 @@ func ParseAmount(amountStr string) (*big.Int, error) {
 	return wei, nil
 }
 
+// GetNonce retrieves the confirmed nonce (transaction count) for an address
+func GetNonce(rpcURL, address string) (uint64, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return 0, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	addr := common.HexToAddress(address)
+	nonce, err := client.NonceAt(context.Background(), addr, nil)
+	if err != nil {
+		return 0, fmt.Errorf("failed to get nonce: %w", err)
+	}
+	return nonce, nil
+}
+
+// GetCode retrieves the contract bytecode at an address (empty for EOA)
+func GetCode(rpcURL, address string) ([]byte, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	addr := common.HexToAddress(address)
+	code, err := client.CodeAt(context.Background(), addr, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get code: %w", err)
+	}
+	return code, nil
+}
+
+// GetChainID retrieves the chain ID from the RPC node
+func GetChainID(rpcURL string) (uint64, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return 0, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	chainID, err := client.ChainID(context.Background())
+	if err != nil {
+		return 0, fmt.Errorf("failed to get chain ID: %w", err)
+	}
+	return chainID.Uint64(), nil
+}
+
+// GetGasPrice retrieves the current suggested gas price
+func GetGasPrice(rpcURL string) (*big.Int, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	gasPrice, err := client.SuggestGasPrice(context.Background())
+	if err != nil {
+		return nil, fmt.Errorf("failed to get gas price: %w", err)
+	}
+	return gasPrice, nil
+}
+
+// GetLatestBlockNumber retrieves the latest block number
+func GetLatestBlockNumber(rpcURL string) (uint64, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return 0, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	blockNum, err := client.BlockNumber(context.Background())
+	if err != nil {
+		return 0, fmt.Errorf("failed to get block number: %w", err)
+	}
+	return blockNum, nil
+}
+
+// GetTransaction retrieves a transaction by hash. Returns the tx and whether it is pending.
+func GetTransaction(rpcURL, txHash string) (*types.Transaction, bool, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return nil, false, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	hash := common.HexToHash(txHash)
+	tx, isPending, err := client.TransactionByHash(context.Background(), hash)
+	if err != nil {
+		return nil, false, fmt.Errorf("failed to get transaction: %w", err)
+	}
+	return tx, isPending, nil
+}
+
+// GetTransactionReceipt retrieves the receipt for a mined transaction
+func GetTransactionReceipt(rpcURL, txHash string) (*types.Receipt, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	hash := common.HexToHash(txHash)
+	receipt, err := client.TransactionReceipt(context.Background(), hash)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get receipt: %w", err)
+	}
+	return receipt, nil
+}
+
+// GetBlock retrieves a block by number. Pass nil for the latest block.
+func GetBlock(rpcURL string, number *big.Int) (*types.Block, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	block, err := client.BlockByNumber(context.Background(), number)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get block: %w", err)
+	}
+	return block, nil
+}
+
 // GetAddressFromPrivateKey derives the Ethereum address from a private key hex string
 func GetAddressFromPrivateKey(privateKeyHex string) (string, error) {
 	privateKey, err := crypto.HexToECDSA(privateKeyHex)

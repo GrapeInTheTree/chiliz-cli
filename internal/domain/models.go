@@ -9,6 +9,7 @@ type Chain struct {
 	ChainID        int64  `json:"chain_id"`
 	CurrencySymbol string `json:"currency_symbol"`
 	LogoURL        string `json:"logo_url"`
+	ExplorerAPIURL string `json:"explorer_api_url,omitempty"`
 }
 
 // GetChainIDBigInt returns the chain ID as *big.Int
