@@ -22,6 +22,9 @@ chains.json
 
 # binary
 /butler
+
+# GoReleaser
+dist/
 # Agents files
 CLAUDE.md
 AGENTS.md
