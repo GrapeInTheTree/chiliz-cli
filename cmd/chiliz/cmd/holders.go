@@ -3,9 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/infra/config"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/output"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/domain"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/infra/config"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/output"
 	"github.com/spf13/cobra"
 )
 

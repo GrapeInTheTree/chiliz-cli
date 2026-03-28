@@ -16,7 +16,7 @@ Why is this useful? What problem does it solve?
 ## Proposed Command
 
 ```bash
-butler <proposed-command> <args>
+chiliz <proposed-command> <args>
 ```
 
 ## Expected Output

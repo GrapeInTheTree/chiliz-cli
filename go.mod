@@ -1,4 +1,4 @@
-module github.com/GrapeInTheTree/go-ethereum-butler
+module github.com/GrapeInTheTree/chiliz-cli
 
 go 1.25.1
 

@@ -16,7 +16,7 @@ var (
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "Print butler version",
+	Short: "Print chiliz version",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		if jsonOutput {
@@ -27,7 +27,7 @@ var versionCmd = &cobra.Command{
 				"commit":  commit,
 			})
 		} else {
-			fmt.Printf("butler %s (%s)\n", version, commit)
+			fmt.Printf("chiliz %s (%s)\n", version, commit)
 		}
 	},
 }

@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/infra/config"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/infra/explorer"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/domain"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/infra/config"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/infra/explorer"
 	"github.com/spf13/cobra"
 )
 
@@ -29,21 +29,21 @@ var appCtx struct {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "butler",
+	Use:   "chiliz",
 	Short: "Chiliz Chain CLI — blockchain queries, validators, staking, tokens",
-	Long: `Butler is a CLI tool for querying Chiliz Chain and EVM-compatible blockchains.
+	Long: `Chiliz is a CLI tool for querying Chiliz Chain and EVM-compatible blockchains.
 
 Quick start:
-  butler init                         Set up config (~/.butler/)
-  butler chain-info                   Chain status (latest block, gas price)
-  butler address <addr-or-name>       Balance, nonce, tx history, tokens
-  butler validators                   Validator set and staking status
-  butler staking <addr-or-name>       Personal staking positions
-  butler token <contract>             Token metadata and price
-  butler call <contract> <sig> [args] Read-only contract call (eth_call)
-  butler tx <hash>                    Transaction details
-  butler block [number|latest]        Block information
-  butler rpc <method> [params]        Raw JSON-RPC call
+  chiliz init                         Set up config (~/.chiliz/)
+  chiliz chain-info                   Chain status (latest block, gas price)
+  chiliz address <addr-or-name>       Balance, nonce, tx history, tokens
+  chiliz validators                   Validator set and staking status
+  chiliz staking <addr-or-name>       Personal staking positions
+  chiliz token <contract>             Token metadata and price
+  chiliz call <contract> <sig> [args] Read-only contract call (eth_call)
+  chiliz tx <hash>                    Transaction details
+  chiliz block [number|latest]        Block information
+  chiliz rpc <method> [params]        Raw JSON-RPC call
 
 Run without subcommands for interactive TUI mode.
 Use --json on any command for machine-readable output.
@@ -63,7 +63,7 @@ Use --chain <name> to switch networks (e.g., --chain "spicy" for testnet).`,
 		// Load configs
 		chains, err := config.LoadChains()
 		if err != nil {
-			return fmt.Errorf("chains.json not found or invalid\nHint: create chains.json or use --config to specify config directory\n      see: https://github.com/GrapeInTheTree/go-ethereum-butler#configuration")
+			return fmt.Errorf("chains.json not found or invalid\nHint: create chains.json or use --config to specify config directory\n      see: https://github.com/GrapeInTheTree/chiliz-cli#configuration")
 		}
 		appCtx.Chains = chains
 

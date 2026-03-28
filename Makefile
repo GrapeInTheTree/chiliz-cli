@@ -1,7 +1,7 @@
 .PHONY: build test vet clean run
 
 build:
-	go build -o butler ./cmd/butler
+	go build -o chiliz ./cmd/chiliz
 
 test:
 	go test ./...
@@ -10,7 +10,7 @@ vet:
 	go vet ./...
 
 clean:
-	rm -f butler
+	rm -f chiliz
 
 run:
-	go run ./cmd/butler
+	go run ./cmd/chiliz

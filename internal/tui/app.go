@@ -3,12 +3,12 @@ package tui
 import (
 	"strings"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/infra/config"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/tui/pages/balance"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/tui/pages/mainmenu"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/tui/pages/send"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/tui/style"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/domain"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/infra/config"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/tui/pages/balance"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/tui/pages/mainmenu"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/tui/pages/send"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/tui/style"
 	tea "github.com/charmbracelet/bubbletea"
 )
 

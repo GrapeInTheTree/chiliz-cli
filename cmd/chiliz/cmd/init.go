@@ -44,8 +44,8 @@ var defaultContacts = []map[string]interface{}{}
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Set up config in ~/.butler/ (Chiliz Mainnet + Spicy Testnet)",
-	Long: `Create default config files in ~/.butler/ directory.
+	Short: "Set up config in ~/.chiliz/ (Chiliz Mainnet + Spicy Testnet)",
+	Long: `Create default config files in ~/.chiliz/ directory.
 
 Sets up:
   - chains.json   (Chiliz Mainnet + Spicy Testnet)
@@ -54,10 +54,10 @@ Sets up:
   - .env.example  (wallet key template)
 
 After init, run:
-  butler chain-info                    # verify connection
-  butler address 0x...                 # query any address
-  butler validators                    # Chiliz validator set
-  butler --chain "spicy" chain-info    # use testnet`,
+  chiliz chain-info                    # verify connection
+  chiliz address 0x...                 # query any address
+  chiliz validators                    # Chiliz validator set
+  chiliz --chain "spicy" chain-info    # use testnet`,
 	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		home, err := os.UserHomeDir()
@@ -65,11 +65,11 @@ After init, run:
 			return fmt.Errorf("cannot find home directory: %w", err)
 		}
 
-		butlerDir := filepath.Join(home, ".butler")
+		chilizDir := filepath.Join(home, ".chiliz")
 
 		// Create directory
-		if err := os.MkdirAll(butlerDir, 0755); err != nil {
-			return fmt.Errorf("failed to create %s: %w", butlerDir, err)
+		if err := os.MkdirAll(chilizDir, 0755); err != nil {
+			return fmt.Errorf("failed to create %s: %w", chilizDir, err)
 		}
 
 		// Write config files
@@ -83,7 +83,7 @@ After init, run:
 		}
 
 		for _, f := range files {
-			path := filepath.Join(butlerDir, f.name)
+			path := filepath.Join(chilizDir, f.name)
 			if _, err := os.Stat(path); err == nil {
 				fmt.Printf("  [skip] %s already exists\n", path)
 				continue
@@ -101,9 +101,9 @@ After init, run:
 		}
 
 		// Write .env.example
-		envPath := filepath.Join(butlerDir, ".env.example")
+		envPath := filepath.Join(chilizDir, ".env.example")
 		if _, err := os.Stat(envPath); err != nil {
-			envContent := "# Wallet Private Keys (without 0x prefix)\nBUTLER_WALLET_MAIN=\nBUTLER_WALLET_TEST=\n"
+			envContent := "# Wallet Private Keys (without 0x prefix)\nCHILIZ_WALLET_MAIN=\nCHILIZ_WALLET_TEST=\n"
 			if err := os.WriteFile(envPath, []byte(envContent), 0644); err != nil {
 				return fmt.Errorf("failed to write .env.example: %w", err)
 			}
@@ -113,10 +113,10 @@ After init, run:
 		}
 
 		fmt.Println()
-		fmt.Println("  Butler initialized! Try:")
-		fmt.Println("    butler chain-info")
-		fmt.Println("    butler validators")
-		fmt.Printf("    butler --chain \"spicy\" chain-info   # testnet\n")
+		fmt.Println("  Chiliz initialized! Try:")
+		fmt.Println("    chiliz chain-info")
+		fmt.Println("    chiliz validators")
+		fmt.Printf("    chiliz --chain \"spicy\" chain-info   # testnet\n")
 		fmt.Println()
 
 		return nil

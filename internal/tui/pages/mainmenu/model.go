@@ -3,7 +3,7 @@ package mainmenu
 import (
 	"strings"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/tui/style"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/tui/style"
 	tea "github.com/charmbracelet/bubbletea"
 )
 

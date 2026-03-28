@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/domain"
 )
 
 // Client is an Etherscan-compatible block explorer API client (works with Chiliscan/Routescan)

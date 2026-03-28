@@ -3,9 +3,9 @@ package cmd
 import (
 	"sync"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/infra/ethereum"
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/output"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/domain"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/infra/ethereum"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/output"
 	"github.com/spf13/cobra"
 )
 

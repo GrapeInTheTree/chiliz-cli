@@ -6,7 +6,7 @@
 *.test
 
 # Log files
-butler.log
+chiliz.log
 
 # IDE files
 .vscode/
@@ -21,7 +21,7 @@ chains.json
 .env
 
 # binary
-/butler
+/chiliz
 
 # GoReleaser
 dist/

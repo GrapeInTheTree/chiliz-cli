@@ -1,20 +1,20 @@
 version: 2
-project_name: butler
+project_name: chiliz
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - id: butler
-    main: ./cmd/butler
-    binary: butler
+  - id: chiliz
+    main: ./cmd/chiliz
+    binary: chiliz
     env:
       - CGO_ENABLED=0
     ldflags:
       - -s -w
-      - -X github.com/GrapeInTheTree/go-ethereum-butler/cmd/butler/cmd.version={{.Version}}
-      - -X github.com/GrapeInTheTree/go-ethereum-butler/cmd/butler/cmd.commit={{.ShortCommit}}
+      - -X github.com/GrapeInTheTree/chiliz-cli/cmd/chiliz/cmd.version={{.Version}}
+      - -X github.com/GrapeInTheTree/chiliz-cli/cmd/chiliz/cmd.commit={{.ShortCommit}}
     goos:
       - linux
       - darwin
@@ -38,7 +38,7 @@ changelog:
       - "^test:"
 
 brews:
-  - name: butler
+  - name: chiliz
     repository:
       owner: GrapeInTheTree
       name: homebrew-tap
@@ -49,10 +49,10 @@ brews:
       email: actions@github.com
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     directory: Formula
-    homepage: "https://github.com/GrapeInTheTree/go-ethereum-butler"
-    description: "Multi-chain EVM wallet CLI tool for Chiliz Chain"
+    homepage: "https://github.com/GrapeInTheTree/chiliz-cli"
+    description: "The CLI for Chiliz Chain — validators, staking, tokens, contracts"
     license: MIT
     install: |
-      bin.install "butler"
+      bin.install "chiliz"
     test: |
-      system "#{bin}/butler", "--help"
+      system "#{bin}/chiliz", "--help"

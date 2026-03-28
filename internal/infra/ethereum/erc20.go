@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"math/big"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/infra/ethereum/contracts"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/infra/ethereum/contracts"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"

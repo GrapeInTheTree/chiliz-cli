@@ -1,6 +1,6 @@
 package domain
 
-// AddressInfo is the response for `butler address <addr>`
+// AddressInfo is the response for `chiliz address <addr>`
 type AddressInfo struct {
 	Address       string         `json:"address"`
 	Chain         string         `json:"chain"`
@@ -37,7 +37,7 @@ type TxSummary struct {
 	TxFee     string `json:"tx_fee,omitempty"`
 }
 
-// TxDetail is the response for `butler tx <hash>`
+// TxDetail is the response for `chiliz tx <hash>`
 type TxDetail struct {
 	Hash           string `json:"hash"`
 	Status         string `json:"status"` // "success", "failed", "pending"
@@ -59,7 +59,7 @@ type TxDetail struct {
 	LogCount       int    `json:"log_count"`
 }
 
-// BlockInfo is the response for `butler block [number]`
+// BlockInfo is the response for `chiliz block [number]`
 type BlockInfo struct {
 	Number     uint64 `json:"number"`
 	Hash       string `json:"hash"`
@@ -73,7 +73,7 @@ type BlockInfo struct {
 	BaseFee    string `json:"base_fee,omitempty"`
 }
 
-// ChainStatus is the response for `butler chain-info`
+// ChainStatus is the response for `chiliz chain-info`
 type ChainStatus struct {
 	Name        string `json:"name"`
 	ChainID     int64  `json:"chain_id"`
@@ -96,7 +96,7 @@ type ValidatorInfo struct {
 	SlashCount     uint32 `json:"slash_count"`
 }
 
-// ValidatorsResult is the response for `butler validators`
+// ValidatorsResult is the response for `chiliz validators`
 type ValidatorsResult struct {
 	Chain      string          `json:"chain"`
 	ChainID    int64           `json:"chain_id"`
@@ -104,7 +104,7 @@ type ValidatorsResult struct {
 	Validators []ValidatorInfo `json:"validators"`
 }
 
-// ContractInfo is the response for `butler contract <address>`
+// ContractInfo is the response for `chiliz contract <address>`
 type ContractInfo struct {
 	Address        string `json:"address"`
 	Name           string `json:"name"`
@@ -126,7 +126,7 @@ type HolderEntry struct {
 	Balance string `json:"balance"`
 }
 
-// HoldersResult is the response for `butler holders <token>`
+// HoldersResult is the response for `chiliz holders <token>`
 type HoldersResult struct {
 	Token      string        `json:"token"`
 	TotalCount string        `json:"total_count"`
@@ -143,7 +143,7 @@ type LogEntry struct {
 	EventName   string   `json:"event_name,omitempty"`
 }
 
-// LogsResult is the response for `butler logs`
+// LogsResult is the response for `chiliz logs`
 type LogsResult struct {
 	Address string     `json:"address"`
 	Event   string     `json:"event,omitempty"`
@@ -151,7 +151,7 @@ type LogsResult struct {
 	Logs    []LogEntry `json:"logs"`
 }
 
-// TokenDetail is the response for `butler token <address>`
+// TokenDetail is the response for `chiliz token <address>`
 type TokenDetail struct {
 	ContractAddress string `json:"contract_address"`
 	Name            string `json:"name"`
@@ -173,7 +173,7 @@ type StakingEntry struct {
 	Rewards    string `json:"rewards"`
 }
 
-// StakingInfo is the response for `butler staking <address>`
+// StakingInfo is the response for `chiliz staking <address>`
 type StakingInfo struct {
 	Address      string         `json:"address"`
 	Chain        string         `json:"chain"`
@@ -182,7 +182,7 @@ type StakingInfo struct {
 	Entries      []StakingEntry `json:"entries,omitempty"`
 }
 
-// CallResult is the response for `butler call <contract> <sig> [args...]`
+// CallResult is the response for `chiliz call <contract> <sig> [args...]`
 type CallResult struct {
 	Contract string   `json:"contract"`
 	Method   string   `json:"method"`

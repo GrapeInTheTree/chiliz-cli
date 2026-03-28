@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/domain"
 	"github.com/joho/godotenv"
 )
 
@@ -22,8 +22,8 @@ func SetConfigDir(dir string) {
 
 // ResolveConfigDir determines the config directory using a cascade:
 // 1. explicit flag (if non-empty)
-// 2. BUTLER_CONFIG_DIR env var
-// 3. ~/.butler/ (if chains.json exists there)
+// 2. CHILIZ_CONFIG_DIR env var
+// 3. ~/.chiliz/ (if chains.json exists there)
 // 4. current working directory
 func ResolveConfigDir(flagValue string) string {
 	if flagValue != "" {
@@ -31,15 +31,15 @@ func ResolveConfigDir(flagValue string) string {
 		return configDir
 	}
 
-	if envDir := os.Getenv("BUTLER_CONFIG_DIR"); envDir != "" {
+	if envDir := os.Getenv("CHILIZ_CONFIG_DIR"); envDir != "" {
 		configDir = envDir
 		return configDir
 	}
 
 	if home, err := os.UserHomeDir(); err == nil {
-		butlerHome := filepath.Join(home, ".butler")
-		if _, err := os.Stat(filepath.Join(butlerHome, "chains.json")); err == nil {
-			configDir = butlerHome
+		chilizHome := filepath.Join(home, ".chiliz")
+		if _, err := os.Stat(filepath.Join(chilizHome, "chains.json")); err == nil {
+			configDir = chilizHome
 			return configDir
 		}
 	}
@@ -103,8 +103,8 @@ func LoadWallets() ([]domain.Wallet, error) {
 
 	// Hardcoded wallet list (only names and env keys)
 	wallets := []domain.Wallet{
-		{Name: "Main Wallet", EnvKey: "BUTLER_WALLET_MAIN"},
-		{Name: "Test Wallet", EnvKey: "BUTLER_WALLET_TEST"},
+		{Name: "Main Wallet", EnvKey: "CHILIZ_WALLET_MAIN"},
+		{Name: "Test Wallet", EnvKey: "CHILIZ_WALLET_TEST"},
 	}
 
 	slog.Info("Loaded wallet configurations", "count", len(wallets))

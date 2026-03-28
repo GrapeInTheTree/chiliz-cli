@@ -4,27 +4,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`go-ethereum-butler` is a hybrid CLI+TUI application for managing multi-chain EVM transactions. Built with Cobra (CLI), Bubble Tea (TUI), and go-ethereum, it provides both scriptable CLI commands and an interactive keyboard-driven interface for balance checks, transaction queries, and token transfers across EVM-compatible chains.
+`chiliz-cli` is a hybrid CLI+TUI application for managing multi-chain EVM transactions. Built with Cobra (CLI), Bubble Tea (TUI), and go-ethereum, it provides both scriptable CLI commands and an interactive keyboard-driven interface for balance checks, transaction queries, and token transfers across EVM-compatible chains.
 
 Currently configured for Chiliz Chain with PEPPER token. New chains/tokens are added via JSON config files with zero code changes.
 
-Distributed via Homebrew (`brew tap GrapeInTheTree/tap && brew install butler`), `go install`, and GitHub Releases.
+Distributed via Homebrew (`brew tap GrapeInTheTree/tap && brew install chiliz`), `go install`, and GitHub Releases.
 
 ## Development Commands
 
 ```bash
 # Run (TUI mode)
-go run ./cmd/butler
+go run ./cmd/chiliz
 
 # Run (CLI mode)
-go run ./cmd/butler address 0x1234...
-go run ./cmd/butler tx 0xabcd... --json
-go run ./cmd/butler block latest
-go run ./cmd/butler chain-info --json
-go run ./cmd/butler call 0x1234... "totalSupply()(uint256)"
+go run ./cmd/chiliz address 0x1234...
+go run ./cmd/chiliz tx 0xabcd... --json
+go run ./cmd/chiliz block latest
+go run ./cmd/chiliz chain-info --json
+go run ./cmd/chiliz call 0x1234... "totalSupply()(uint256)"
 
 # Build
-go build -o butler ./cmd/butler
+go build -o chiliz ./cmd/chiliz
 
 # Test
 go test ./...
@@ -33,8 +33,8 @@ go test ./...
 go vet ./...
 golangci-lint run
 
-# Logs (TUI mode writes to butler.log)
-tail -f butler.log
+# Logs (TUI mode writes to chiliz.log)
+tail -f chiliz.log
 
 # Regenerate ERC-20 bindings after ABI changes
 abigen --abi internal/infra/ethereum/abi/erc20.json \
@@ -49,21 +49,21 @@ git push --tags
 ## CLI Commands
 
 ```
-butler                              # Interactive TUI mode (no args)
-butler address <addr>               # Address info: balance, nonce, tx history, tokens
-butler tx <hash>                    # Transaction details with receipt
-butler block [number|latest]        # Block information
-butler chain-info                   # Chain status: latest block, gas price
-butler call <contract> <sig> [args] # Generic read-only contract call (eth_call)
-butler validators                   # Chiliz validator set + staking status
-butler staking <addr>               # Personal staking positions + rewards
-butler token <contract>             # Token metadata via Chiliscan API
-butler contract <addr>              # Contract source, compiler, deployer
-butler holders <token>              # Top token holders + count
-butler logs --address --event       # On-chain event logs (eth_getLogs)
-butler rpc <method> [params]        # Raw JSON-RPC escape hatch
-butler init                         # Initialize config in ~/.butler/
-butler version                      # Build version and commit hash
+chiliz                              # Interactive TUI mode (no args)
+chiliz address <addr>               # Address info: balance, nonce, tx history, tokens
+chiliz tx <hash>                    # Transaction details with receipt
+chiliz block [number|latest]        # Block information
+chiliz chain-info                   # Chain status: latest block, gas price
+chiliz call <contract> <sig> [args] # Generic read-only contract call (eth_call)
+chiliz validators                   # Chiliz validator set + staking status
+chiliz staking <addr>               # Personal staking positions + rewards
+chiliz token <contract>             # Token metadata via Chiliscan API
+chiliz contract <addr>              # Contract source, compiler, deployer
+chiliz holders <token>              # Top token holders + count
+chiliz logs --address --event       # On-chain event logs (eth_getLogs)
+chiliz rpc <method> [params]        # Raw JSON-RPC escape hatch
+chiliz init                         # Initialize config in ~/.chiliz/
+chiliz version                      # Build version and commit hash
 
 Global flags:
   --chain <name>     Blockchain network (default: first in chains.json)
@@ -76,7 +76,7 @@ Global flags:
 Three-layer clean architecture under `internal/`, with Cobra CLI routing on top:
 
 ```
-cmd/butler/
+cmd/chiliz/
   main.go                           Entry point: Cobra Execute()
   cmd/
     root.go                         Cobra root command + global flags + PersistentPreRunE
@@ -84,26 +84,26 @@ cmd/butler/
                                     appCtx struct holds shared state for all subcommands
                                     slog silenced in CLI mode (TUI sets up file logger)
     tui.go                          TUI launcher (no-args fallback)
-                                    Logging to butler.log with 0600 permissions
-    address.go                      `butler address <addr>` — parallel RPC + Explorer fetch
+                                    Logging to chiliz.log with 0600 permissions
+    address.go                      `chiliz address <addr>` — parallel RPC + Explorer fetch
                                     5 concurrent goroutines: balance, nonce, code, txlist, tokens
-    tx.go                           `butler tx <hash>` — tx + receipt lookup
+    tx.go                           `chiliz tx <hash>` — tx + receipt lookup
                                     Derives sender via LatestSignerForChainID
                                     Gets block timestamp for time display
-    block.go                        `butler block [number]` — block by number
+    block.go                        `chiliz block [number]` — block by number
                                     Supports "latest" keyword or specific block number
-    chaininfo.go                    `butler chain-info` — chain status
+    chaininfo.go                    `chiliz chain-info` — chain status
                                     Parallel: block number + gas price
-    call.go                         `butler call <contract> <sig> [args]` — generic eth_call
+    call.go                         `chiliz call <contract> <sig> [args]` — generic eth_call
                                     Uses abi_helper.go for encoding/decoding
                                     Supports cast-style sig: "name(inputs)(outputs)"
-    validators.go                   `butler validators` — Chiliz staking + governance query
+    validators.go                   `chiliz validators` — Chiliz staking + governance query
                                     getValidators() + parallel getValidatorStatus() per validator
                                     Voting Power from Governance(0x7002), APY estimated on-chain
                                     Semaphore (max 4 concurrent) + retry for RPC rate limits
-    init.go                         `butler init` — creates ~/.butler/ with default config
+    init.go                         `chiliz init` — creates ~/.chiliz/ with default config
                                     Chiliz Mainnet + Spicy Testnet pre-configured
-    version.go                      `butler version` — ldflags-injected version/commit
+    version.go                      `chiliz version` — ldflags-injected version/commit
 
 internal/
   domain/
@@ -117,7 +117,7 @@ internal/
 
   infra/
     config/config.go                Loads chains.json, tokens.json, contacts.json, .env
-                                    ResolveConfigDir() cascade: --config > env > ~/.butler/ > CWD
+                                    ResolveConfigDir() cascade: --config > env > ~/.chiliz/ > CWD
                                     configPath() joins configDir + filename (empty configDir = relative)
                                     GetPrivateKey() reads key from env only at signing time
                                     ResolveAddress() resolves contact names or validates 0x addresses
@@ -182,7 +182,7 @@ internal/
 
 **Type-safe contract bindings:** ERC-20 interactions use `abigen`-generated Go code, not manual ABI encoding.
 
-**Dynamic ABI encoding:** `butler call` uses `abi.ParseSelector` + `abi.Arguments.Pack/Unpack` for runtime encoding without JSON ABI files. The `abi_helper.go` module is designed for reuse by future commands (validators, staking, logs).
+**Dynamic ABI encoding:** `chiliz call` uses `abi.ParseSelector` + `abi.Arguments.Pack/Unpack` for runtime encoding without JSON ABI files. The `abi_helper.go` module is designed for reuse by future commands (validators, staking, logs).
 
 **Config-driven extensibility:** Chains, tokens, and contacts are pure JSON. Both TUI and CLI dynamically use these at startup.
 
@@ -201,13 +201,13 @@ internal/
 | Block by number | RPC | |
 | **Tx history by address** | **Explorer API** | RPC cannot do this — no `eth_getTransactionsByAddress` exists |
 | **All token holdings** | **Explorer API** | Token discovery requires indexer |
-| **Arbitrary contract reads** | RPC `eth_call` | via `butler call` with dynamic ABI encoding |
+| **Arbitrary contract reads** | RPC `eth_call` | via `chiliz call` with dynamic ABI encoding |
 
 ### Config Path Resolution
 
 1. `--config /path/to/dir` flag
-2. `BUTLER_CONFIG_DIR` environment variable
-3. `~/.butler/` if `chains.json` exists there
+2. `CHILIZ_CONFIG_DIR` environment variable
+3. `~/.chiliz/` if `chains.json` exists there
 4. Current working directory (default, backward compatible)
 
 ### Navigation & Input (TUI)
@@ -230,7 +230,7 @@ internal/
 ### Code changes needed
 | What | Where |
 |------|-------|
-| Add CLI command | Create `cmd/butler/cmd/<name>.go`, register in `root.go` init() |
+| Add CLI command | Create `cmd/chiliz/cmd/<name>.go`, register in `root.go` init() |
 | Add wallet | `internal/infra/config/config.go` LoadWallets() + `.env` |
 | Add TUI page | Create `internal/tui/pages/<name>/model.go`, register in `app.go` |
 | Add blockchain query | Add to `internal/infra/ethereum/client.go` |
@@ -255,8 +255,8 @@ git push --tags
 - Secrets required: `HOMEBREW_TAP_TOKEN` (fine-grained PAT with repo scope on homebrew-tap)
 
 **Install methods after release:**
-- `brew tap GrapeInTheTree/tap && brew install butler`
-- `go install github.com/GrapeInTheTree/go-ethereum-butler/cmd/butler@latest`
+- `brew tap GrapeInTheTree/tap && brew install chiliz`
+- `go install github.com/GrapeInTheTree/chiliz-cli/cmd/butler@latest`
 - Download binary from GitHub Releases page
 
 ## Key Dependencies

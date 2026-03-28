@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/internal/domain"
+	"github.com/GrapeInTheTree/chiliz-cli/internal/domain"
 )
 
 // Print outputs the value in JSON or human-readable format

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/GrapeInTheTree/go-ethereum-butler/cmd/butler/cmd"
+	"github.com/GrapeInTheTree/chiliz-cli/cmd/chiliz/cmd"
 )
 
 func main() {

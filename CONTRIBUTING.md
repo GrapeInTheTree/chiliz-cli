@@ -1,12 +1,12 @@
-# Contributing to go-ethereum-butler
+# Contributing to chiliz-cli
 
 Contributions are welcome! Here's how to get started.
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/GrapeInTheTree/go-ethereum-butler.git
-cd go-ethereum-butler
+git clone https://github.com/GrapeInTheTree/chiliz-cli.git
+cd chiliz-cli
 make build
 make test
 ```
@@ -14,7 +14,7 @@ make test
 ## Project Structure
 
 ```
-cmd/butler/cmd/     CLI commands (one file per command)
+cmd/chiliz/cmd/     CLI commands (one file per command)
 internal/domain/    Data models and output types
 internal/infra/     Infrastructure (RPC, config, explorer API)
 internal/output/    Human/JSON output formatter
@@ -23,7 +23,7 @@ internal/tui/       Bubble Tea interactive UI
 
 ## Adding a New CLI Command
 
-1. Create `cmd/butler/cmd/<name>.go`
+1. Create `cmd/chiliz/cmd/<name>.go`
 2. Define a `var <name>Cmd = &cobra.Command{...}` with `RunE`
 3. Register in `root.go` `init()` via `rootCmd.AddCommand(<name>Cmd)`
 4. If needed, add output type in `internal/domain/output.go`
