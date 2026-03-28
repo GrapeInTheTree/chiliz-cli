@@ -136,6 +136,17 @@ func printTxHuman(t domain.TxDetail) {
 		fmt.Printf("  Method ID:  %s\n", t.MethodID)
 	}
 	fmt.Printf("  Logs:       %d events\n", t.LogCount)
+
+	if len(t.InternalTxs) > 0 {
+		fmt.Println()
+		fmt.Printf("  Internal Transactions (%d):\n", len(t.InternalTxs))
+		fmt.Printf("    %-15s %-15s %-18s %s\n", "From", "To", "Value", "Gas")
+		fmt.Printf("    %s\n", strings.Repeat("-", 55))
+		for _, itx := range t.InternalTxs {
+			fmt.Printf("    %-15s %-15s %-18s %s\n",
+				shortenHash(itx.From), shortenHash(itx.To), itx.Value, itx.GasUsed)
+		}
+	}
 	fmt.Println()
 }
 

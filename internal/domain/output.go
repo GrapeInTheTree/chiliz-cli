@@ -55,8 +55,9 @@ type TxDetail struct {
 	Nonce          uint64 `json:"nonce"`
 	InputData      string `json:"input_data"`
 	MethodID       string `json:"method_id,omitempty"`
-	MethodName     string `json:"method_name,omitempty"`
-	LogCount       int    `json:"log_count"`
+	MethodName     string      `json:"method_name,omitempty"`
+	LogCount       int         `json:"log_count"`
+	InternalTxs    []TxSummary `json:"internal_txs,omitempty"`
 }
 
 // BlockInfo is the response for `chiliz block [number]`

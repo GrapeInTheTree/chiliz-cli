@@ -146,6 +146,14 @@ var txCmd = &cobra.Command{
 			LogCount:       logCount,
 		}
 
+		// Fetch internal transactions (graceful, explorer-only)
+		if appCtx.Explorer != nil {
+			itxs, err := appCtx.Explorer.GetInternalTxByHash(hash)
+			if err == nil && len(itxs) > 0 {
+				detail.InternalTxs = itxs
+			}
+		}
+
 		return output.Print(jsonOutput, detail)
 	},
 }

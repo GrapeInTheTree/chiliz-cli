@@ -368,6 +368,37 @@ func (c *Client) GetInternalTxList(address string, page, offset int) ([]domain.T
 	return txs, nil
 }
 
+// GetInternalTxByHash retrieves internal transactions for a specific tx hash
+func (c *Client) GetInternalTxByHash(txHash string) ([]domain.TxSummary, error) {
+	<-c.rateLimiter
+
+	params := url.Values{
+		"module": {"account"},
+		"action": {"txlistinternal"},
+		"txhash": {txHash},
+	}
+
+	var entries []rawTxListEntry
+	if err := c.fetch(params, &entries); err != nil {
+		return nil, fmt.Errorf("GetInternalTxByHash: %w", err)
+	}
+
+	txs := make([]domain.TxSummary, 0, len(entries))
+	for _, e := range entries {
+		ts, _ := strconv.ParseInt(e.TimeStamp, 10, 64)
+		txs = append(txs, domain.TxSummary{
+			Hash:    e.Hash,
+			From:    e.From,
+			To:      e.To,
+			Value:   formatWei(e.Value),
+			GasUsed: e.GasUsed,
+			Timestamp: ts,
+			TimeHuman: formatTime(ts),
+		})
+	}
+	return txs, nil
+}
+
 // fetch executes an API call and unmarshals the result into target
 func (c *Client) fetch(params url.Values, target any) error {
 	reqURL := c.baseURL + "?" + params.Encode()
