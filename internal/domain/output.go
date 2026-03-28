@@ -88,9 +88,11 @@ type ValidatorInfo struct {
 	Owner          string `json:"owner"`
 	Status         string `json:"status"`
 	TotalDelegated string `json:"total_delegated"`
-	SlashCount     uint32 `json:"slash_count"`
+	VotingPower    string `json:"voting_power"`
+	APY            string `json:"apy"`
 	CommissionRate string `json:"commission_rate"`
 	TotalRewards   string `json:"total_rewards"`
+	SlashCount     uint32 `json:"slash_count"`
 }
 
 // ValidatorsResult is the response for `butler validators`

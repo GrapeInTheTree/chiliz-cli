@@ -195,12 +195,20 @@ func printStakingHuman(s domain.StakingInfo) {
 func printValidatorsHuman(v domain.ValidatorsResult) {
 	fmt.Println()
 	fmt.Printf("  %s Validators (%d active)\n\n", v.Chain, v.Count)
-	fmt.Printf("  %-4s %-15s %-10s %-22s %-12s %s\n", "#", "Address", "Status", "Delegated", "Commission", "Rewards")
-	fmt.Printf("  %s\n", strings.Repeat("-", 80))
+	fmt.Printf("  %-4s %-15s %-10s %-16s %-10s %-10s %s\n", "#", "Address", "Status", "Staked", "APY", "VP", "Commission")
+	fmt.Printf("  %s\n", strings.Repeat("-", 82))
 	for i, val := range v.Validators {
 		addr := shortenHash(val.Address)
-		fmt.Printf("  %-4d %-15s %-10s %-22s %-12s %s\n",
-			i+1, addr, val.Status, val.TotalDelegated, val.CommissionRate, val.TotalRewards)
+		apy := val.APY
+		if apy == "" {
+			apy = "N/A"
+		}
+		vp := val.VotingPower
+		if vp == "" {
+			vp = "N/A"
+		}
+		fmt.Printf("  %-4d %-15s %-10s %-16s %-10s %-10s %s\n",
+			i+1, addr, val.Status, val.TotalDelegated, apy, vp, val.CommissionRate)
 	}
 	fmt.Println()
 }
