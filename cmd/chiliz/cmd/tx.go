@@ -68,8 +68,8 @@ var txCmd = &cobra.Command{
 		// Format value
 		valueFormatted := ethereum.FormatBalance(tx.Value()) + " " + chain.CurrencySymbol
 
-		// Gas price in Gwei
-		gasPrice := formatGwei(tx.GasPrice())
+		// Gas price — use effective gas price from receipt for EIP-1559 accuracy
+		gasPrice := formatGwei(tx.GasPrice()) // fallback for pending txs
 
 		// Status
 		status := "pending"
@@ -90,9 +90,16 @@ var txCmd = &cobra.Command{
 			gasUsed = receipt.GasUsed
 			logCount = len(receipt.Logs)
 
-			// Calculate tx fee
-			fee := new(big.Int).Mul(new(big.Int).SetUint64(gasUsed), tx.GasPrice())
-			txFee = ethereum.FormatBalance(fee) + " " + chain.CurrencySymbol
+			// Use EffectiveGasPrice from receipt (accurate for EIP-1559 txs)
+			effectiveGasPrice := receipt.EffectiveGasPrice
+			if effectiveGasPrice != nil {
+				gasPrice = formatGwei(effectiveGasPrice)
+				fee := new(big.Int).Mul(new(big.Int).SetUint64(gasUsed), effectiveGasPrice)
+				txFee = ethereum.FormatBalance(fee) + " " + chain.CurrencySymbol
+			} else {
+				fee := new(big.Int).Mul(new(big.Int).SetUint64(gasUsed), tx.GasPrice())
+				txFee = ethereum.FormatBalance(fee) + " " + chain.CurrencySymbol
+			}
 
 			// Get block timestamp
 			block, err := ethereum.GetBlock(rpc, receipt.BlockNumber)
