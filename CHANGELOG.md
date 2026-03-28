@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+- **`butler call <contract> <sig> [args...]`** — generic read-only smart contract queries via `eth_call`
+  - Cast-style signature format: `"functionName(inputTypes)(outputTypes)"`
+  - Supports address, uint/int (all sizes), bool, string, bytes input types
+  - Decodes return values including slices (`address[]`, `uint256[]`)
+  - Raw hex fallback when output types are omitted
+  - Reusable ABI helper module (`abi_helper.go`) for future commands (validators, logs)
+- **`CallContract()`** RPC function in `client.go` — `eth_call` wrapper
+
 ## [0.2.0] - 2026-03-27
 
 This release transforms butler from a TUI-only app into a **hybrid CLI+TUI tool** with automated release infrastructure.

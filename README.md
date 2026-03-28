@@ -85,6 +85,7 @@ butler address <addr>               Address info: balance, nonce, tx history, to
 butler tx <hash>                    Transaction details with receipt
 butler block [number|latest]        Block information
 butler chain-info                   Chain status: latest block, gas price
+butler call <contract> <sig> [args] Read-only contract call (eth_call)
 
 Global flags:
   --chain <name>     Blockchain network (default: first in chains.json)
@@ -151,6 +152,41 @@ $ butler block latest
   Gas Used:    70012 / 30000000
   Base Fee:    2500.00 Gwei
   Txs:         1 transactions
+```
+
+### butler call
+
+Generic read-only contract calls — query any smart contract function.
+
+```bash
+# ERC-20 totalSupply
+$ butler call 0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67 "totalSupply()(uint256)"
+  8760093706618541126999998364250000
+
+# Token name and decimals
+$ butler call 0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67 "name()(string)"
+  PEPPER
+
+# Chiliz validator list (system contract)
+$ butler call 0x0000000000000000000000000000000000001000 "getValidators()(address[])"
+  [0x8d9B6aB3..., 0xBf968b8a..., 0x31dB8118..., ...]
+
+# Check if address is a validator
+$ butler call 0x0000000000000000000000000000000000001000 "isValidator(address)(bool)" 0x8d9B6aB3Fe8EbF16d9242e48feFB89360fa62820
+  true
+
+# JSON output
+$ butler call 0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67 "totalSupply()(uint256)" --json
+{
+  "contract": "0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67",
+  "method": "totalSupply()",
+  "values": ["8760093706618541126999998364250000"],
+  "raw": "0x000000000000000000000000000000000001afe7ed5e433cdebfb05bd38def90"
+}
+
+# Raw hex (no output types specified)
+$ butler call 0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67 "totalSupply()"
+  0x000000000000000000000000000000000001afe7ed5e433cdebfb05bd38def90
 ```
 
 ### butler chain-info

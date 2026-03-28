@@ -53,6 +53,7 @@ butler address <addr>               # Address info: balance, nonce, tx history, 
 butler tx <hash>                    # Transaction details with receipt
 butler block [number|latest]        # Block information
 butler chain-info                   # Chain status: latest block, gas price
+butler call <contract> <sig> [args] # Generic read-only contract call (eth_call)
 
 Global flags:
   --chain <name>     Blockchain network (default: first in chains.json)
