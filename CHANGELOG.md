@@ -33,6 +33,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - **`CallContract()`** RPC function — `eth_call` wrapper
 - **`DecodeRawOutputs()`** — returns raw Go types (not strings) for programmatic use
 - **22 unit tests** for ABI helper functions (ParseCallSignature, ConvertArg, FormatValue, BuildCalldata)
+- **Contact name resolution** — all address commands accept names from `contacts.json`
+  - Case-insensitive partial match: `butler address danial` → resolves to 0xef33...
+  - Actionable error messages: "address or contact not found" with hint
+- **Makefile** — `make build`, `make test`, `make vet`, `make clean`, `make run`
+- **CONTRIBUTING.md** — development setup, project structure, PR process
+- **GitHub templates** — bug report, feature request, PR template
+- **Improved error messages** — config loading errors include actionable hints with docs link
 
 ## [0.2.0] - 2026-03-27
 

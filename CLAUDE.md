@@ -113,6 +113,7 @@ internal/
                                     ResolveConfigDir() cascade: --config > env > ~/.butler/ > CWD
                                     configPath() joins configDir + filename (empty configDir = relative)
                                     GetPrivateKey() reads key from env only at signing time
+                                    ResolveAddress() resolves contact names or validates 0x addresses
                                     Wallets hardcoded: Main Wallet + Test Wallet
 
     ethereum/

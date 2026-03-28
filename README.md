@@ -107,6 +107,16 @@ Global flags:
   -h, --help         Help for any command
 ```
 
+### Contact Name Resolution
+
+All address commands support contact names from `contacts.json`:
+
+```bash
+butler address danial           # resolves to 0xef33...d93c
+butler staking kayen            # resolves to 0x86d3...8897
+butler address 0xC3B2...D2c49   # direct address still works
+```
+
 ### butler address
 
 Comprehensive address overview — 5 concurrent fetches (3 RPC + 2 Explorer) for fast response.
