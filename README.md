@@ -232,20 +232,23 @@ $ butler call 0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67 "totalSupply()"
 
 ### butler validators
 
-Chiliz-exclusive: query the on-chain Staking contract for validator status.
+Chiliz-exclusive: query on-chain Staking + Governance contracts for validator status with APY and Voting Power.
 
 ```bash
 $ butler validators
 
   Chiliz Chain Validators (13 active)
 
-  #    Address         Status     Delegated              Commission   Rewards
-  --------------------------------------------------------------------------------
-  1    0x8d9B...2820   Active     293,155,118 CHZ        1.0%         47,834 CHZ
-  2    0xBf96...0B5f   Active     245,812,003 CHZ        5.0%         39,201 CHZ
-  3    0x31dB...B074   Active     256,792,572 CHZ        10.0%        40,115 CHZ
+  #    Address         Status     Staked           APY        VP         Commission
+  ----------------------------------------------------------------------------------
+  1    0x8d9B...2820   Active     293.33M CHZ      18.32%     12.40%     1.0%
+  2    0xBf96...0B5f   Active     291.01M CHZ      17.57%     12.30%     5.0%
+  3    0x31dB...B074   Active     256.79M CHZ      16.65%     10.85%     10.0%
+  4    0xa90d...A00e   Active     222.23M CHZ      17.57%     9.39%      5.0%
   ...
 ```
+
+APY is estimated from on-chain rewards data (same approach as the staking web UI). Voting Power matches exactly.
 
 ### butler chain-info
 

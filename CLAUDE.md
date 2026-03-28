@@ -94,9 +94,12 @@ cmd/butler/
     call.go                         `butler call <contract> <sig> [args]` — generic eth_call
                                     Uses abi_helper.go for encoding/decoding
                                     Supports cast-style sig: "name(inputs)(outputs)"
-    validators.go                   `butler validators` — Chiliz staking contract query
+    validators.go                   `butler validators` — Chiliz staking + governance query
                                     getValidators() + parallel getValidatorStatus() per validator
-                                    System contract 0x...1000
+                                    Voting Power from Governance(0x7002), APY estimated on-chain
+                                    Semaphore (max 4 concurrent) + retry for RPC rate limits
+    init.go                         `butler init` — creates ~/.butler/ with default config
+                                    Chiliz Mainnet + Spicy Testnet pre-configured
     version.go                      `butler version` — ldflags-injected version/commit
 
 internal/

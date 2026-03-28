@@ -13,9 +13,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
   - Raw hex fallback when output types are omitted
   - Reusable ABI helper module (`abi_helper.go`) for future commands
 - **`butler validators`** — Chiliz-exclusive validator set and staking status
-  - Queries Staking system contract (0x...1000) for `getValidators()` + `getValidatorStatus()`
-  - Parallel queries for all 13 validators (concurrent goroutines)
-  - Displays status, total delegated, commission rate, total rewards
+  - Queries Staking (0x...1000) + Governance (0x...7002) system contracts
+  - **APY estimation** from on-chain rewards data (delegator APY after commission)
+  - **Voting Power %** — exact match with Chiliz staking web (delegated / votingSupply)
+  - Staked amounts in M (millions) for readability
+  - Semaphore (max 4 concurrent) + retry for RPC rate limit resilience
+- **`butler init`** — automatic config setup in `~/.butler/`
+  - Chiliz Mainnet (88888) + Spicy Testnet (88882) pre-configured
+  - PEPPER token, empty contacts, .env.example template
 - **`butler version`** — displays version and commit hash
   - GoReleaser ldflags injection at build time
   - Local builds show "dev (none)", releases show "v0.4.0 (abc1234)"
@@ -44,7 +49,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
   - PEPPER token, empty contacts, .env.example template
   - Safe to re-run (skips existing files)
   - `butler --chain "spicy" chain-info` for testnet
+- **Contact name resolution** — all address commands accept names from `contacts.json`
 - **Improved error messages** — config loading errors include actionable hints with docs link
+- **Improved CLI help** — root `--help` shows Quick Start, each command has descriptive Short text
+
+### Fixed
+- **Validators "unknown" status** — semaphore (max 4 concurrent) + retry to avoid RPC rate limiting. All 13 validators now show consistently.
 
 ## [0.2.0] - 2026-03-27
 
