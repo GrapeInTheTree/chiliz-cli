@@ -88,6 +88,7 @@ func init() {
 	rootCmd.AddCommand(chainInfoCmd)
 	rootCmd.AddCommand(callCmd)
 	rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(validatorsCmd)
 }
 
 // Execute runs the root command

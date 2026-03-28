@@ -36,6 +36,8 @@ func printHuman(v any) error {
 		printChainInfoHuman(data)
 	case domain.CallResult:
 		printCallHuman(data)
+	case domain.ValidatorsResult:
+		printValidatorsHuman(data)
 	default:
 		return printJSON(v)
 	}
@@ -138,6 +140,19 @@ func printChainInfoHuman(c domain.ChainStatus) {
 	fmt.Printf("  Currency:     %s\n", c.Currency)
 	fmt.Printf("  Latest Block: %d\n", c.LatestBlock)
 	fmt.Printf("  Gas Price:    %s\n", c.GasPrice)
+	fmt.Println()
+}
+
+func printValidatorsHuman(v domain.ValidatorsResult) {
+	fmt.Println()
+	fmt.Printf("  %s Validators (%d active)\n\n", v.Chain, v.Count)
+	fmt.Printf("  %-4s %-15s %-10s %-22s %-12s %s\n", "#", "Address", "Status", "Delegated", "Commission", "Rewards")
+	fmt.Printf("  %s\n", strings.Repeat("-", 80))
+	for i, val := range v.Validators {
+		addr := shortenHash(val.Address)
+		fmt.Printf("  %-4d %-15s %-10s %-22s %-12s %s\n",
+			i+1, addr, val.Status, val.TotalDelegated, val.CommissionRate, val.TotalRewards)
+	}
 	fmt.Println()
 }
 

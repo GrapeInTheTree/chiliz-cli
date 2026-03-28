@@ -81,6 +81,25 @@ type ChainStatus struct {
 	Currency    string `json:"currency_symbol"`
 }
 
+// ValidatorInfo represents a single validator's status
+type ValidatorInfo struct {
+	Address        string `json:"address"`
+	Owner          string `json:"owner"`
+	Status         string `json:"status"`
+	TotalDelegated string `json:"total_delegated"`
+	SlashCount     uint32 `json:"slash_count"`
+	CommissionRate string `json:"commission_rate"`
+	TotalRewards   string `json:"total_rewards"`
+}
+
+// ValidatorsResult is the response for `butler validators`
+type ValidatorsResult struct {
+	Chain      string          `json:"chain"`
+	ChainID    int64           `json:"chain_id"`
+	Count      int             `json:"count"`
+	Validators []ValidatorInfo `json:"validators"`
+}
+
 // CallResult is the response for `butler call <contract> <sig> [args...]`
 type CallResult struct {
 	Contract string   `json:"contract"`

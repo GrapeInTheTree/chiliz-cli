@@ -169,6 +169,31 @@ func DecodeOutputs(outputTypes string, data []byte) ([]string, error) {
 	return result, nil
 }
 
+// DecodeRawOutputs is like DecodeOutputs but returns raw Go values instead of formatted strings.
+// Useful when callers need to work with the actual types (e.g., []common.Address).
+func DecodeRawOutputs(outputTypes string, data []byte) ([]interface{}, error) {
+	if outputTypes == "" {
+		return nil, nil
+	}
+
+	sel, err := abi.ParseSelector("x" + outputTypes)
+	if err != nil {
+		return nil, fmt.Errorf("parse output types: %w", err)
+	}
+
+	outputs, err := argumentsFromMarshalings(sel.Inputs)
+	if err != nil {
+		return nil, fmt.Errorf("build output types: %w", err)
+	}
+
+	values, err := outputs.Unpack(data)
+	if err != nil {
+		return nil, fmt.Errorf("unpack: %w", err)
+	}
+
+	return values, nil
+}
+
 // argumentsFromMarshalings converts []abi.ArgumentMarshaling to abi.Arguments.
 func argumentsFromMarshalings(marshalings []abi.ArgumentMarshaling) (abi.Arguments, error) {
 	args := make(abi.Arguments, len(marshalings))
