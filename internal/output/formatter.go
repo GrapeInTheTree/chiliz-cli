@@ -34,6 +34,8 @@ func printHuman(v any) error {
 		printBlockHuman(data)
 	case domain.ChainStatus:
 		printChainInfoHuman(data)
+	case domain.CallResult:
+		printCallHuman(data)
 	default:
 		return printJSON(v)
 	}
@@ -136,6 +138,18 @@ func printChainInfoHuman(c domain.ChainStatus) {
 	fmt.Printf("  Currency:     %s\n", c.Currency)
 	fmt.Printf("  Latest Block: %d\n", c.LatestBlock)
 	fmt.Printf("  Gas Price:    %s\n", c.GasPrice)
+	fmt.Println()
+}
+
+func printCallHuman(c domain.CallResult) {
+	fmt.Println()
+	if len(c.Values) > 0 {
+		for _, v := range c.Values {
+			fmt.Printf("  %s\n", v)
+		}
+	} else {
+		fmt.Printf("  %s\n", c.Raw)
+	}
 	fmt.Println()
 }
 

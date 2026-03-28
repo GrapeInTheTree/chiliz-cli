@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"math/big"
 
+	goethereum "github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -262,6 +263,25 @@ func GetBlock(rpcURL string, number *big.Int) (*types.Block, error) {
 		return nil, fmt.Errorf("failed to get block: %w", err)
 	}
 	return block, nil
+}
+
+// CallContract executes a read-only eth_call against a contract
+func CallContract(rpcURL, contractAddr string, calldata []byte) ([]byte, error) {
+	client, err := ethclient.Dial(rpcURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to RPC: %w", err)
+	}
+	defer client.Close()
+
+	to := common.HexToAddress(contractAddr)
+	result, err := client.CallContract(context.Background(), goethereum.CallMsg{
+		To:   &to,
+		Data: calldata,
+	}, nil)
+	if err != nil {
+		return nil, fmt.Errorf("eth_call failed: %w", err)
+	}
+	return result, nil
 }
 
 // GetAddressFromPrivateKey derives the Ethereum address from a private key hex string

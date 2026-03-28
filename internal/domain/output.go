@@ -80,3 +80,11 @@ type ChainStatus struct {
 	GasPrice    string `json:"gas_price"`
 	Currency    string `json:"currency_symbol"`
 }
+
+// CallResult is the response for `butler call <contract> <sig> [args...]`
+type CallResult struct {
+	Contract string   `json:"contract"`
+	Method   string   `json:"method"`
+	Values   []string `json:"values,omitempty"`
+	Raw      string   `json:"raw"`
+}

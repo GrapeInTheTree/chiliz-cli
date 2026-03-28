@@ -86,6 +86,7 @@ func init() {
 	rootCmd.AddCommand(txCmd)
 	rootCmd.AddCommand(blockCmd)
 	rootCmd.AddCommand(chainInfoCmd)
+	rootCmd.AddCommand(callCmd)
 }
 
 // Execute runs the root command
