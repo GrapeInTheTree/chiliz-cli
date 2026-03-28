@@ -13,6 +13,7 @@
   <a href="https://goreportcard.com/report/github.com/GrapeInTheTree/go-ethereum-butler"><img src="https://goreportcard.com/badge/github.com/GrapeInTheTree/go-ethereum-butler" alt="Go Report Card"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
   <a href="https://github.com/GrapeInTheTree/go-ethereum-butler/releases"><img src="https://img.shields.io/github/downloads/GrapeInTheTree/go-ethereum-butler/total" alt="Downloads"></a>
+  <a href="https://github.com/GrapeInTheTree/go-ethereum-butler/actions/workflows/ci.yml"><img src="https://github.com/GrapeInTheTree/go-ethereum-butler/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
 
 ---
@@ -94,6 +95,9 @@ butler block [number|latest]        Block information
 butler chain-info                   Chain status: latest block, gas price
 butler call <contract> <sig> [args] Read-only contract call (eth_call)
 butler validators                   Chiliz validator set and staking status
+butler staking <addr>               Personal staking positions and rewards
+butler token <contract>             Token metadata, price, and social links
+butler rpc <method> [params]        Raw JSON-RPC escape hatch
 butler version                      Print version and build info
 
 Global flags:

@@ -19,6 +19,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - **`butler version`** — displays version and commit hash
   - GoReleaser ldflags injection at build time
   - Local builds show "dev (none)", releases show "v0.4.0 (abc1234)"
+- **`butler rpc <method> [params]`** — raw JSON-RPC escape hatch for arbitrary RPC calls
+- **`butler staking <address>`** — personal staking positions per validator via StakingPool (0x...7001)
+  - Parallel `getStakedAmount` + `claimableRewards` queries for all 13 validators
+  - Filters to only show validators with active stakes
+- **`butler token <contract>`** — token metadata via Chiliscan `tokeninfo` API
+  - Name, symbol, type, decimals, total supply, price, social links, verification status
+- **4byte method decoding** in `butler tx` — auto-resolves method selectors to function names
+  - OpenChain API + local cache of common ERC-20 selectors
+  - e.g., `0x0efe6a8b` → `deposit(address,uint256,uint256)`
+- **CI pipeline** — GitHub Actions: build + vet + test on every push/PR
+- **MIT LICENSE** file
 - **`CallContract()`** RPC function — `eth_call` wrapper
 - **`DecodeRawOutputs()`** — returns raw Go types (not strings) for programmatic use
 - **22 unit tests** for ABI helper functions (ParseCallSignature, ConvertArg, FormatValue, BuildCalldata)

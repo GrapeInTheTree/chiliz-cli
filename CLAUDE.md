@@ -56,6 +56,9 @@ butler block [number|latest]        # Block information
 butler chain-info                   # Chain status: latest block, gas price
 butler call <contract> <sig> [args] # Generic read-only contract call (eth_call)
 butler validators                   # Chiliz validator set + staking status
+butler staking <addr>               # Personal staking positions + rewards
+butler token <contract>             # Token metadata via Chiliscan API
+butler rpc <method> [params]        # Raw JSON-RPC escape hatch
 butler version                      # Build version and commit hash
 
 Global flags:
