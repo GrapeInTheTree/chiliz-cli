@@ -30,6 +30,23 @@ Most EVM CLI tools are either too low-level (raw RPC calls) or too generic (Foun
 
 Think of it as `cast` meets a personal wallet manager.
 
+## Quick Start
+
+```bash
+# Install (pick one)
+brew tap GrapeInTheTree/tap && brew install butler   # Homebrew
+go install github.com/GrapeInTheTree/go-ethereum-butler/cmd/butler@latest  # Go
+
+# Initialize config (Chiliz Mainnet + Spicy Testnet)
+butler init
+
+# Start querying
+butler chain-info                    # Chiliz mainnet status
+butler validators                    # validator set
+butler address 0xC3B2...             # any address
+butler --chain "spicy" chain-info    # Spicy testnet
+```
+
 ## Install
 
 ### Homebrew (macOS / Linux)
@@ -98,6 +115,7 @@ butler validators                   Chiliz validator set and staking status
 butler staking <addr>               Personal staking positions and rewards
 butler token <contract>             Token metadata, price, and social links
 butler rpc <method> [params]        Raw JSON-RPC escape hatch
+butler init                         Initialize config (~/.butler/)
 butler version                      Print version and build info
 
 Global flags:

@@ -39,6 +39,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - **Makefile** — `make build`, `make test`, `make vet`, `make clean`, `make run`
 - **CONTRIBUTING.md** — development setup, project structure, PR process
 - **GitHub templates** — bug report, feature request, PR template
+- **`butler init`** — automatic config setup in `~/.butler/`
+  - Chiliz Mainnet (88888) + Spicy Testnet (88882) pre-configured
+  - PEPPER token, empty contacts, .env.example template
+  - Safe to re-run (skips existing files)
+  - `butler --chain "spicy" chain-info` for testnet
 - **Improved error messages** — config loading errors include actionable hints with docs link
 
 ## [0.2.0] - 2026-03-27

@@ -59,6 +59,7 @@ butler validators                   # Chiliz validator set + staking status
 butler staking <addr>               # Personal staking positions + rewards
 butler token <contract>             # Token metadata via Chiliscan API
 butler rpc <method> [params]        # Raw JSON-RPC escape hatch
+butler init                         # Initialize config in ~/.butler/
 butler version                      # Build version and commit hash
 
 Global flags:
