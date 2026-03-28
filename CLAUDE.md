@@ -58,6 +58,9 @@ butler call <contract> <sig> [args] # Generic read-only contract call (eth_call)
 butler validators                   # Chiliz validator set + staking status
 butler staking <addr>               # Personal staking positions + rewards
 butler token <contract>             # Token metadata via Chiliscan API
+butler contract <addr>              # Contract source, compiler, deployer
+butler holders <token>              # Top token holders + count
+butler logs --address --event       # On-chain event logs (eth_getLogs)
 butler rpc <method> [params]        # Raw JSON-RPC escape hatch
 butler init                         # Initialize config in ~/.butler/
 butler version                      # Build version and commit hash

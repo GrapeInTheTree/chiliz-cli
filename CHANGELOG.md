@@ -38,6 +38,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - **`CallContract()`** RPC function — `eth_call` wrapper
 - **`DecodeRawOutputs()`** — returns raw Go types (not strings) for programmatic use
 - **22 unit tests** for ABI helper functions (ParseCallSignature, ConvertArg, FormatValue, BuildCalldata)
+- **`butler contract <address>`** — contract source code, compiler, deployer, verification status via Chiliscan API
+- **`butler holders <token>`** — top token holders with balances + total holder count via Chiliscan API
+- **`butler logs`** — on-chain event log filtering via RPC `eth_getLogs`
+  - `--address`, `--event`, `--blocks`, `--from-block`, `--to-block` flags
+  - Event signature auto-hashed to topic0 via keccak256
+- **`butler address` internal transactions** — internal (trace) txns via Chiliscan API
 - **Contact name resolution** — all address commands accept names from `contacts.json`
   - Case-insensitive partial match: `butler address danial` → resolves to 0xef33...
   - Actionable error messages: "address or contact not found" with hint
