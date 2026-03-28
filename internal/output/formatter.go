@@ -38,6 +38,8 @@ func printHuman(v any) error {
 		printCallHuman(data)
 	case domain.ValidatorsResult:
 		printValidatorsHuman(data)
+	case domain.StakingInfo:
+		printStakingHuman(data)
 	default:
 		return printJSON(v)
 	}
@@ -142,6 +144,24 @@ func printChainInfoHuman(c domain.ChainStatus) {
 	fmt.Printf("  Currency:     %s\n", c.Currency)
 	fmt.Printf("  Latest Block: %d\n", c.LatestBlock)
 	fmt.Printf("  Gas Price:    %s\n", c.GasPrice)
+	fmt.Println()
+}
+
+func printStakingHuman(s domain.StakingInfo) {
+	fmt.Println()
+	fmt.Printf("  Staking Summary for %s\n\n", shortenHash(s.Address))
+	if len(s.Entries) == 0 {
+		fmt.Println("  No staking positions found.")
+	} else {
+		fmt.Printf("  %-15s %-24s %s\n", "Validator", "Staked", "Claimable Rewards")
+		fmt.Printf("  %s\n", strings.Repeat("-", 60))
+		for _, e := range s.Entries {
+			fmt.Printf("  %-15s %-24s %s\n", shortenHash(e.Validator), e.Staked, e.Rewards)
+		}
+		fmt.Println()
+		fmt.Printf("  Total Staked:    %s\n", s.TotalStaked)
+		fmt.Printf("  Total Rewards:   %s\n", s.TotalRewards)
+	}
 	fmt.Println()
 }
 

@@ -101,6 +101,22 @@ type ValidatorsResult struct {
 	Validators []ValidatorInfo `json:"validators"`
 }
 
+// StakingEntry represents staking for a single validator
+type StakingEntry struct {
+	Validator  string `json:"validator"`
+	Staked     string `json:"staked"`
+	Rewards    string `json:"rewards"`
+}
+
+// StakingInfo is the response for `butler staking <address>`
+type StakingInfo struct {
+	Address      string         `json:"address"`
+	Chain        string         `json:"chain"`
+	TotalStaked  string         `json:"total_staked"`
+	TotalRewards string         `json:"total_rewards"`
+	Entries      []StakingEntry `json:"entries,omitempty"`
+}
+
 // CallResult is the response for `butler call <contract> <sig> [args...]`
 type CallResult struct {
 	Contract string   `json:"contract"`
