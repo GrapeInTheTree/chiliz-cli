@@ -17,7 +17,7 @@ import (
 
 var txCmd = &cobra.Command{
 	Use:   "tx <hash>",
-	Short: "Show transaction details",
+	Short: "Transaction details: status, value, gas, method decode",
 	Long:  "Display full details for a transaction by hash",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

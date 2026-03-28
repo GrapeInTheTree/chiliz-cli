@@ -13,7 +13,7 @@ import (
 
 var addressCmd = &cobra.Command{
 	Use:   "address <addr>",
-	Short: "Show comprehensive address information",
+	Short: "Balance, nonce, tx history, and token holdings for an address",
 	Long:  "Display balance, nonce, token holdings, and recent transactions for an address",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

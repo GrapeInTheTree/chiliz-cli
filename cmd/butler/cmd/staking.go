@@ -17,7 +17,7 @@ const stakingPoolContract = "0x0000000000000000000000000000000000007001"
 
 var stakingCmd = &cobra.Command{
 	Use:   "staking <address>",
-	Short: "Show staking positions for an address",
+	Short: "Staked amounts and claimable rewards per validator",
 	Long:  "Query StakingPool (0x...7001) for staked amounts and claimable rewards per validator.",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

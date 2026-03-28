@@ -14,7 +14,7 @@ import (
 
 var blockCmd = &cobra.Command{
 	Use:   "block [number|latest]",
-	Short: "Show block information",
+	Short: "Block details by number (hash, miner, gas, txs)",
 	Long:  "Display block details by number. Defaults to latest block.",
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

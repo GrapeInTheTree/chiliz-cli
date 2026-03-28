@@ -44,7 +44,7 @@ var defaultContacts = []map[string]interface{}{}
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Initialize butler configuration",
+	Short: "Set up config in ~/.butler/ (Chiliz Mainnet + Spicy Testnet)",
 	Long: `Create default config files in ~/.butler/ directory.
 
 Sets up:

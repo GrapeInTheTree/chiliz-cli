@@ -11,7 +11,7 @@ import (
 
 var chainInfoCmd = &cobra.Command{
 	Use:   "chain-info",
-	Short: "Show chain status",
+	Short: "Chain status: latest block, gas price, chain ID",
 	Long:  "Display current chain information including latest block and gas price",
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {

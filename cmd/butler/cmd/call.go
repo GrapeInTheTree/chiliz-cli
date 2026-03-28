@@ -13,7 +13,7 @@ import (
 
 var callCmd = &cobra.Command{
 	Use:   "call <contract> <signature> [args...]",
-	Short: "Call a read-only contract function",
+	Short: "Read-only contract call via eth_call (like cast call)",
 	Long: `Execute a read-only eth_call against a smart contract.
 
 Signature format: "functionName(inputTypes)(outputTypes)"

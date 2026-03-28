@@ -30,8 +30,24 @@ var appCtx struct {
 
 var rootCmd = &cobra.Command{
 	Use:   "butler",
-	Short: "Multi-chain EVM wallet manager",
-	Long:  "A CLI and TUI tool for managing multi-chain EVM transactions. Run without subcommands for interactive TUI mode.",
+	Short: "Chiliz Chain CLI — blockchain queries, validators, staking, tokens",
+	Long: `Butler is a CLI tool for querying Chiliz Chain and EVM-compatible blockchains.
+
+Quick start:
+  butler init                         Set up config (~/.butler/)
+  butler chain-info                   Chain status (latest block, gas price)
+  butler address <addr-or-name>       Balance, nonce, tx history, tokens
+  butler validators                   Validator set and staking status
+  butler staking <addr-or-name>       Personal staking positions
+  butler token <contract>             Token metadata and price
+  butler call <contract> <sig> [args] Read-only contract call (eth_call)
+  butler tx <hash>                    Transaction details
+  butler block [number|latest]        Block information
+  butler rpc <method> [params]        Raw JSON-RPC call
+
+Run without subcommands for interactive TUI mode.
+Use --json on any command for machine-readable output.
+Use --chain <name> to switch networks (e.g., --chain "spicy" for testnet).`,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		// In CLI mode, silence slog output (TUI sets up its own file logger)
 		slog.SetDefault(slog.New(slog.NewTextHandler(io.Discard, nil)))

@@ -16,7 +16,7 @@ const stakingContract = "0x0000000000000000000000000000000000001000"
 
 var validatorsCmd = &cobra.Command{
 	Use:   "validators",
-	Short: "Show Chiliz Chain validator set and staking status",
+	Short: "Chiliz validators: status, delegated, commission, rewards",
 	Long:  "Query the Staking system contract (0x...1000) for active validators, delegated amounts, and commission rates.",
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {

@@ -10,7 +10,7 @@ import (
 
 var tokenCmd = &cobra.Command{
 	Use:   "token <contract-address>",
-	Short: "Show token information",
+	Short: "Token metadata: name, supply, price, holders, links",
 	Long: `Query Chiliscan for token metadata: name, symbol, supply, holders, price.
 
 Examples:

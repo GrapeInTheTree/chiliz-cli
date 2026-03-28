@@ -13,7 +13,7 @@ import (
 
 var rpcCmd = &cobra.Command{
 	Use:   "rpc <method> [params]",
-	Short: "Send a raw JSON-RPC request",
+	Short: "Raw JSON-RPC call (any method, e.g., eth_feeHistory)",
 	Long: `Send an arbitrary JSON-RPC call to the chain's RPC endpoint.
 Params should be a JSON array string. If omitted, empty array is used.
 
