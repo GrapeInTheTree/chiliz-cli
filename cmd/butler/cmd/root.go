@@ -42,13 +42,13 @@ var rootCmd = &cobra.Command{
 		// Load configs
 		chains, err := config.LoadChains()
 		if err != nil {
-			return fmt.Errorf("failed to load chains: %w", err)
+			return fmt.Errorf("chains.json not found or invalid\nHint: create chains.json or use --config to specify config directory\n      see: https://github.com/GrapeInTheTree/go-ethereum-butler#configuration")
 		}
 		appCtx.Chains = chains
 
 		tokens, err := config.LoadTokens()
 		if err != nil {
-			return fmt.Errorf("failed to load tokens: %w", err)
+			return fmt.Errorf("tokens.json not found or invalid\nHint: create tokens.json or use --config to specify config directory")
 		}
 		appCtx.Tokens = tokens
 
