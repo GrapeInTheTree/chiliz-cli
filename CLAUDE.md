@@ -55,6 +55,8 @@ butler tx <hash>                    # Transaction details with receipt
 butler block [number|latest]        # Block information
 butler chain-info                   # Chain status: latest block, gas price
 butler call <contract> <sig> [args] # Generic read-only contract call (eth_call)
+butler validators                   # Chiliz validator set + staking status
+butler version                      # Build version and commit hash
 
 Global flags:
   --chain <name>     Blockchain network (default: first in chains.json)
@@ -88,6 +90,10 @@ cmd/butler/
     call.go                         `butler call <contract> <sig> [args]` — generic eth_call
                                     Uses abi_helper.go for encoding/decoding
                                     Supports cast-style sig: "name(inputs)(outputs)"
+    validators.go                   `butler validators` — Chiliz staking contract query
+                                    getValidators() + parallel getValidatorStatus() per validator
+                                    System contract 0x...1000
+    version.go                      `butler version` — ldflags-injected version/commit
 
 internal/
   domain/

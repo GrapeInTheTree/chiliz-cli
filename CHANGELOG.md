@@ -11,8 +11,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
   - Supports address, uint/int (all sizes), bool, string, bytes input types
   - Decodes return values including slices (`address[]`, `uint256[]`)
   - Raw hex fallback when output types are omitted
-  - Reusable ABI helper module (`abi_helper.go`) for future commands (validators, logs)
-- **`CallContract()`** RPC function in `client.go` — `eth_call` wrapper
+  - Reusable ABI helper module (`abi_helper.go`) for future commands
+- **`butler validators`** — Chiliz-exclusive validator set and staking status
+  - Queries Staking system contract (0x...1000) for `getValidators()` + `getValidatorStatus()`
+  - Parallel queries for all 13 validators (concurrent goroutines)
+  - Displays status, total delegated, commission rate, total rewards
+- **`butler version`** — displays version and commit hash
+  - GoReleaser ldflags injection at build time
+  - Local builds show "dev (none)", releases show "v0.4.0 (abc1234)"
+- **`CallContract()`** RPC function — `eth_call` wrapper
+- **`DecodeRawOutputs()`** — returns raw Go types (not strings) for programmatic use
+- **22 unit tests** for ABI helper functions (ParseCallSignature, ConvertArg, FormatValue, BuildCalldata)
 
 ## [0.2.0] - 2026-03-27
 

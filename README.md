@@ -8,6 +8,13 @@
   </p>
 </p>
 
+<p align="center">
+  <a href="https://github.com/GrapeInTheTree/go-ethereum-butler/releases"><img src="https://img.shields.io/github/v/release/GrapeInTheTree/go-ethereum-butler" alt="Release"></a>
+  <a href="https://goreportcard.com/report/github.com/GrapeInTheTree/go-ethereum-butler"><img src="https://goreportcard.com/badge/github.com/GrapeInTheTree/go-ethereum-butler" alt="Go Report Card"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://github.com/GrapeInTheTree/go-ethereum-butler/releases"><img src="https://img.shields.io/github/downloads/GrapeInTheTree/go-ethereum-butler/total" alt="Downloads"></a>
+</p>
+
 ---
 
 ## Why go-ethereum-butler?
@@ -86,6 +93,8 @@ butler tx <hash>                    Transaction details with receipt
 butler block [number|latest]        Block information
 butler chain-info                   Chain status: latest block, gas price
 butler call <contract> <sig> [args] Read-only contract call (eth_call)
+butler validators                   Chiliz validator set and staking status
+butler version                      Print version and build info
 
 Global flags:
   --chain <name>     Blockchain network (default: first in chains.json)
@@ -187,6 +196,23 @@ $ butler call 0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67 "totalSupply()(uint256)
 # Raw hex (no output types specified)
 $ butler call 0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67 "totalSupply()"
   0x000000000000000000000000000000000001afe7ed5e433cdebfb05bd38def90
+```
+
+### butler validators
+
+Chiliz-exclusive: query the on-chain Staking contract for validator status.
+
+```bash
+$ butler validators
+
+  Chiliz Chain Validators (13 active)
+
+  #    Address         Status     Delegated              Commission   Rewards
+  --------------------------------------------------------------------------------
+  1    0x8d9B...2820   Active     293,155,118 CHZ        1.0%         47,834 CHZ
+  2    0xBf96...0B5f   Active     245,812,003 CHZ        5.0%         39,201 CHZ
+  3    0x31dB...B074   Active     256,792,572 CHZ        10.0%        40,115 CHZ
+  ...
 ```
 
 ### butler chain-info
@@ -420,11 +446,26 @@ Users upgrade with `brew upgrade butler` or `go install ...@latest`.
 
 </details>
 
+## Shell Completion
+
+Butler supports tab completion for bash, zsh, and fish:
+
+```bash
+# Bash
+butler completion bash > /etc/bash_completion.d/butler
+
+# Zsh (add to ~/.zshrc: fpath=(~/.zsh/completions $fpath))
+butler completion zsh > ~/.zsh/completions/_butler
+
+# Fish
+butler completion fish > ~/.config/fish/completions/butler.fish
+```
+
 ## Development
 
 ```bash
 go build -o butler ./cmd/butler    # Build
-go test ./...                       # Test
+go test ./...                       # Test (22 cases)
 go vet ./...                        # Lint
 tail -f butler.log                  # TUI logs
 ```
